@@ -3,13 +3,12 @@ package com.example.android.miwok.activities;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.miwok.R;
 import com.example.android.miwok.Word;
-import com.example.android.miwok.WordAdapter;
+import com.example.android.miwok.adapters.WordAdapter;
+import com.example.android.miwok.listeners.WordClickListener;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,7 @@ public class NumbersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        final ArrayList<Word> words = new ArrayList<Word>();
+        ArrayList<Word> words = new ArrayList<Word>();
         words.add(new Word( "One", "lutti", R.drawable.number_one, R.raw.number_one ));
         words.add(new Word( "Two", "otiiko", R.drawable.number_two, R.raw.number_two ));
         words.add(new Word( "Three", "tolookosu", R.drawable.number_three, R.raw.number_three ));
@@ -38,14 +37,6 @@ public class NumbersActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Word wordClicked = words.get(position);
-
-                mMediaPlayer = MediaPlayer.create( NumbersActivity.this, wordClicked.getAudioResourceId() );
-                mMediaPlayer.start();
-            }
-        });
+        listView.setOnItemClickListener(new WordClickListener(this, words));
     }
 }

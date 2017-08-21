@@ -32,41 +32,31 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
-        TextView numbers = (TextView) findViewById(R.id.numbers);
-        numbers.setOnClickListener(new View.OnClickListener() {
+        class MenuClickListener implements View.OnClickListener {
+            private Class mActivityClass;
+
+            public MenuClickListener(Class activityClass) {
+                mActivityClass = activityClass;
+            }
+
             @Override
             public void onClick(View v) {
-                Intent numbersIntent = new Intent( MainActivity.this, NumbersActivity.class );
-                startActivity(numbersIntent);
+                Intent intent = new Intent( MainActivity.this, mActivityClass );
+                startActivity(intent);
             }
-        });
+        }
+
+        TextView numbers = (TextView) findViewById(R.id.numbers);
+        numbers.setOnClickListener(new MenuClickListener( NumbersActivity.class ));
 
         TextView family = (TextView) findViewById(R.id.family);
-        family.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent familyIntent = new Intent( MainActivity.this, FamilyActivity.class );
-                startActivity(familyIntent);
-            }
-        });
+        family.setOnClickListener(new MenuClickListener( FamilyActivity.class ));
 
         TextView colors = (TextView) findViewById(R.id.colors);
-        colors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent colorsIntent = new Intent( MainActivity.this, ColorsActivity.class );
-                startActivity(colorsIntent);
-            }
-        });
+        colors.setOnClickListener(new MenuClickListener( ColorsActivity.class ));
 
         TextView phrases = (TextView) findViewById(R.id.phrases);
-        phrases.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent phrasesIntent = new Intent( MainActivity.this, PhrasesActivity.class );
-                startActivity(phrasesIntent);
-            }
-        });
+        phrases.setOnClickListener(new MenuClickListener( PhrasesActivity.class ));
 
 
     }
