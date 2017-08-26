@@ -1,5 +1,7 @@
 package com.example.android.miwok.activities;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 
 public class ColorsActivity extends AppCompatActivity {
 
-    private MediaPlayer mMediaPlayer;
+    private WordClickListener mWordClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,14 @@ public class ColorsActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new WordClickListener(this, words));
+        mWordClickListener = new WordClickListener(this, words, (AudioManager) getSystemService(Context.AUDIO_SERVICE));
+        listView.setOnItemClickListener( mWordClickListener );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        mWordClickListener.releaseMediaPlayer();
     }
 }
